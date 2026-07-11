@@ -108,14 +108,23 @@ body {
 }
 
 #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
     min-width: 280px;
     max-width: 280px;
     background-color: var(--sidebar-bg);
     color: #fff;
-    transition: all 0.3s;
-    min-height: 100vh;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
-    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100vh;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+    z-index: 1050;
+    transform: translateX(-280px);
+}
+
+#sidebar.active {
+    transform: translateX(0);
 }
 
 #sidebar .sidebar-header {
@@ -400,15 +409,4 @@ body {
     background-color: #f1f5f9;
 }
 
-/* Responsive sidebar */
-@media(max-width: 768px) {
-    #sidebar {
-        margin-left: -280px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #content {
-        width: 100%;
-    }
-}
+/* Responsive sidebar styles are now fully handled by standard CSS translate transitions */

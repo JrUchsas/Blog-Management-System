@@ -16,6 +16,8 @@
     @yield('styles')
 </head>
 <body>
+    <!-- Sidebar Hover Trigger Zone -->
+    <div id="sidebar-trigger" style="position: fixed; top: 0; left: 0; width: 15px; height: 100vh; z-index: 1040; background: transparent;"></div>
 
     <div id="wrapper">
         <!-- Sidebar -->
@@ -154,10 +156,60 @@
     <!-- Bootstrap 5 Bundle JS (with Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Sidebar Toggle Script -->
+    <!-- Hover and Collapse Sidebar Script -->
     <script>
-        document.getElementById('sidebarCollapse').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.toggle('active');
+        const sidebar = document.getElementById('sidebar');
+        const trigger = document.getElementById('sidebar-trigger');
+        const collapseBtn = document.getElementById('sidebarCollapse');
+
+        function showSidebar() {
+            sidebar.classList.add('active');
+        }
+
+        function hideSidebar() {
+            sidebar.classList.remove('active');
+        }
+
+        // Show when mouse enters trigger zone or collapse button
+        trigger.addEventListener('mouseenter', showSidebar);
+        collapseBtn.addEventListener('mouseenter', showSidebar);
+
+        // Keep open when mouse is inside sidebar
+        sidebar.addEventListener('mouseenter', showSidebar);
+
+        // Hide when mouse leaves the elements with brief delay to check matches
+        sidebar.addEventListener('mouseleave', function() {
+            setTimeout(() => {
+                if (!sidebar.matches(':hover') && !collapseBtn.matches(':hover') && !trigger.matches(':hover')) {
+                    hideSidebar();
+                }
+            }, 50);
+        });
+
+        collapseBtn.addEventListener('mouseleave', function() {
+            setTimeout(() => {
+                if (!sidebar.matches(':hover') && !collapseBtn.matches(':hover') && !trigger.matches(':hover')) {
+                    hideSidebar();
+                }
+            }, 50);
+        });
+
+        trigger.addEventListener('mouseleave', function() {
+            setTimeout(() => {
+                if (!sidebar.matches(':hover') && !collapseBtn.matches(':hover') && !trigger.matches(':hover')) {
+                    hideSidebar();
+                }
+            }, 50);
+        });
+
+        // Also allow clicking the collapse button to toggle state
+        collapseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (sidebar.classList.contains('active')) {
+                hideSidebar();
+            } else {
+                showSidebar();
+            }
         });
     </script>
     
